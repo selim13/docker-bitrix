@@ -8,3 +8,6 @@
 ; 2) Code that does not work well when accelerated, due to some delayed
 ;    compile time evaluation.
 ; 3) Code that triggers an OPcache bug.
+/**/bitrix/cache/
+/**/bitrix/managed_cache/
+/**/bitrix/stack_cache/
