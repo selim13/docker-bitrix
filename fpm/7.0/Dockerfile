@@ -42,6 +42,6 @@ RUN usermod -u 1000 www-data
 COPY php/conf.d/* /usr/local/etc/php/conf.d/
 COPY php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf
 
-RUN mkdir -p /tmp/php_sessions/www /tmp/php_upload/www /tmp/opcache \
-    && chown -R www-data:www-data /tmp/php_sessions /tmp/php_upload /tmp/opcache \
+RUN mkdir -p /tmp/php_sessions/www /tmp/php_upload/www /tmp/opcache /var/log/php /var/log/msmtp \
+    && chown -R www-data:www-data /tmp/php_sessions /tmp/php_upload /tmp/opcache /var/log/msmtp \
     && chown www-data:www-data /var/www/html
