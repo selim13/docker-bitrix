@@ -2,17 +2,17 @@ FROM php:7.0-fpm
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        libpng12-dev \
-        libjpeg62-turbo-dev \
-        libfreetype6-dev \
-        libmcrypt-dev \
-        libedit-dev \
-        libcurl3-gnutls-dev \
-        libxml2-dev \
-        curl \
-        msmtp \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    libmcrypt-dev \
+    libedit-dev \
+    libcurl3-gnutls-dev \
+    libxml2-dev \
+    curl \
+    msmtp \
     && rm -rf /var/lib/apt/lists/* \
-	&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd mcrypt mbstring mysqli readline curl opcache zip soap json
 
 
