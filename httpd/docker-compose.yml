@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  bitrix:
+    #build: .
+    build: .  
+    #image: selim13/bitrix-httpd:latest
+    ports:
+      - 80:80
+    volumes:
+     - "/home/selim13/www/atc/pdrc/www:/home/bitrix/ext_www"
+    environment:
+      BX_HOSTS: "pdrc.ru ekb.pdrc.ru"
