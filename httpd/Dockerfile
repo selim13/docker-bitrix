@@ -11,17 +11,20 @@ RUN apt-get update \
     libxml2-dev \
     libpspell-dev \
     curl \
+    git \
     msmtp \
     ssl-cert \
+    unzip \
     && rm -rf /var/lib/apt/lists/* \
-    && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) curl gd json mbstring mysqli pspell readline opcache sockets soap zip  \
-    && pecl install xdebug-2.7.0 apcu mcrypt \
+    && pecl install xdebug-3.0.2 apcu mcrypt \
     && docker-php-ext-enable xdebug apcu mcrypt
 
 # Memcache from PECL does't build with php 7.1 anymore, so manually build it's patched version
-ENV MEMCACHE_VERSION 4.0.3
+ENV MEMCACHE_VERSION 4.0.5.2
 RUN curl -SL https://github.com/websupport-sk/pecl-memcache/archive/${MEMCACHE_VERSION}.tar.gz -o /tmp/memcache.tar.gz \
     && tar xzf /tmp/memcache.tar.gz -C /tmp \
     && mkdir -p /usr/src/php/ext \
@@ -34,7 +37,7 @@ RUN curl -SL https://github.com/websupport-sk/pecl-memcache/archive/${MEMCACHE_V
 ENV COMPOSER_HOME /composer
 ENV PATH /composer/vendor/bin:$PATH
 ENV COMPOSER_ALLOW_SUPERUSER 1
-ENV COMPOSER_VERSION 1.8.4
+ENV COMPOSER_VERSION 1.10.20
 
 RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
     && curl -o /tmp/composer-setup.sig https://composer.github.io/installer.sig \
@@ -65,9 +68,9 @@ RUN mkdir -p $WWWDATA_DIRS /home/bitrix/www /home/bitrix/ext_www \
     && chown -R www-data:www-data $WWWDATA_DIRS \
     && chown www-data:www-data /home/bitrix/www /home/bitrix/ext_www
 
-RUN echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.remote_port=9000" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.remote_connect_back=On" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.client_port=9003" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.discover_client_host" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 COPY index.php /home/bitrix/www/
 
