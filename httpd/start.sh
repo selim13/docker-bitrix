@@ -67,9 +67,9 @@ if [ "$BX_USE_SSL" == "yes" ]; then
 fi
 
 for HOST in $BX_HOSTS; do
-    mkdir -p /tmp/php_sessions/$HOST /tmp/php_upload/$HOST
-    chown www-data:www-data /tmp/php_sessions/$HOST /tmp/php_upload/$HOST
-    chmod 770 /tmp/php_sessions/$HOST /tmp/php_upload/$HOST
+    mkdir -p /tmp/php_sessions/ext_www/$HOST /tmp/php_upload/$HOST
+    chown www-data:www-data /tmp/php_sessions/ext_www/$HOST /tmp/php_upload/$HOST
+    chmod 770 /tmp/php_sessions/ext_www/$HOST /tmp/php_upload/$HOST
 
     CONF="$APACHE_CONFDIR/sites-available/$HOST.conf"
     cp $APACHE_CONFDIR/virtual_host.tmpl.conf $CONF
