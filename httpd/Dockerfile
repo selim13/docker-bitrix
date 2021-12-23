@@ -21,7 +21,7 @@ RUN apt-get update \
     && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-install -j$(nproc) curl gd json mysqli pspell readline opcache sockets soap zip
+    && docker-php-ext-install -j$(nproc) curl gd json mysqli pspell opcache sockets soap zip
 
 RUN pecl install xdebug-3.0.3 apcu mcrypt \
     && docker-php-ext-enable xdebug apcu mcrypt
